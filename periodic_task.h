@@ -32,7 +32,11 @@ private:
     void (*control_func)(bool);
     TaskHandle_t task_handle = NULL;
     QueueHandle_t queue_handle = NULL;
-    void task(void* arg);
+    bool output_state = false;
+    periodic_interop_cmd_t last = {.type = periodic_cmd_types::switch_off};
+    periodic_interop_cmd_t cmd = {.type = periodic_cmd_types::switch_off};
+
+    static void task(void* arg);
 public:
     periodic_task(void (*ctrl_func)(bool), size_t queue_depth = 8);
     ~periodic_task();
