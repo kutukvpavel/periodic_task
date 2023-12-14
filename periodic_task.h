@@ -43,18 +43,7 @@ public:
 
     BaseType_t start(size_t stack_size = 3072, uint32_t priority = 2);
     BaseType_t enqueue(const periodic_interop_cmd_t* cmd);
+    void (*dbg_callback)(const char*);
 };
-
-periodic_task::periodic_task(void (*ctrl_func)(bool), size_t queue_depth) : control_func(ctrl_func)
-{
-    queue_handle = xQueueCreate(queue_depth, sizeof(periodic_interop_cmd_t));
-    assert(queue_handle);
-}
-
-periodic_task::~periodic_task()
-{
-    if (task_handle) vTaskDelete(task_handle);
-    vQueueDelete(queue_handle);
-}
 
 #endif
